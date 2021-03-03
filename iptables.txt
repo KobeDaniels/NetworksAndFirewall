@@ -1,0 +1,11 @@
+#to disable zone transfers we edit the config of bind:
+allow-transfer {"none";};
+
+#protect ping flooding:
+iptables -t filter -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
+iptables -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -j DROP
+
+#disable outgoing connection's except security updates:
+iptables -A OUTPUT -d archive.ubuntu.com -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -j DROP

@@ -11,5 +11,4 @@ iptables -A OUTPUT -d 8.8.4.4 -j ACCEPT
 iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -d security.ubuntu.com -j ACCEPT #security and archive probably have the same ip so those updates get allowed aswell
 
-iptables -P INPUT DROP
 iptables -P OUTPOUT DROP

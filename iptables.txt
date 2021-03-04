@@ -1,4 +1,4 @@
-#to disable zone transfers we edit the config of bind in /etc/bind/named.conf.options:
+#to disable zone transfers we edit the config of bind in "/etc/bind/named.conf.options":
 allow-transfer {"none";};
 
 #protect ping flooding:

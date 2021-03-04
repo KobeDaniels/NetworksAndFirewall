@@ -1,6 +1,10 @@
 #to disable zone transfers we edit the config of bind in "/etc/bind/named.conf.options":
 allow-transfer {"none";};
 
+#allow loopback networking (ping)
+iptables -A OUTPUT -o lo -j ACCEPT
+iptables -A INPUT -i lo -j ACCEPT
+
 #protect ping flooding:
 iptables -t filter -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
 iptables -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -j DROP
@@ -11,4 +15,14 @@ iptables -A OUTPUT -d 8.8.4.4 -j ACCEPT
 iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -d security.ubuntu.com -j ACCEPT #security and archive probably have the same ip so those updates get allowed aswell
 
-iptables -P OUTPOUT DROP
+#allow incomming connections on ports of our services
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 21 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 80 -j ACCEPT
+iptables -A INPUT -p udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p udp --sport 53 -j ACCEPT
+
+#secure!!
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP

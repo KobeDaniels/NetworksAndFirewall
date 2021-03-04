@@ -9,8 +9,7 @@ iptables -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -j DROP
 iptables -A OUTPUT -d 8.8.8.8 -j ACCEPT
 iptables -A OUTPUT -d 8.8.4.4 -j ACCEPT
 iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-iptables -A OUTPUT -d security.ubuntu.com -j ACCEPT
-iptables -A OUTPUT -j DROP
+iptables -A OUTPUT -d security.ubuntu.com -j ACCEPT #security and archive probably have the same ip so those updates get allowed aswell
 
 iptables -P INPUT DROP
 iptables -P OUTPOUT DROP

@@ -5,7 +5,7 @@ allow-transfer {"none";};
 iptables -t filter -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
 iptables -A INPUT -i enp0s3 -p icmp --icmp-type echo-request -j DROP
 
-#disable outgoing connection's except security updates:
+#disable outgoing connection's except security updates, make sure dns server is set to 8.8.8.8/8.8.4.4:
 iptables -A OUTPUT -d 8.8.8.8 -j ACCEPT
 iptables -A OUTPUT -d 8.8.4.4 -j ACCEPT
 iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
